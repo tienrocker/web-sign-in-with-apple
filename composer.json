@@ -1,7 +1,7 @@
 {
     "name": "tienrocker/web-sign-in-with-apple",
     "description": "Sample php web sign in with apple",
-    "type": "project",
+    "type": "library",
     "license": "MIT",
     "authors": [
         {
