@@ -7,6 +7,8 @@ Please take a look at `example` folder
 
 [Source](https://developer.okta.com/blog/2019/06/04/what-the-heck-is-sign-in-with-apple "What the Heck is Sign In with Apple?")
 
+[Demo](https://vgplay.vn/apple/ "Demo of Sign In with Apple")
+
 #### Decode Apple RS256
 
 With base64 string get from ios devices
