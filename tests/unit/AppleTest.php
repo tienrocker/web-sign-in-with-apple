@@ -15,8 +15,7 @@ class AppleTest extends TestCase
     public function testCreateClientSecret()
     {
         include_once __DIR__ . '/../../example/config.php';
-        /** @var \Apple\Apple $static */
-        $client_secret = $static::create_client_secret();
+        $client_secret = Apple::create_client_secret();
         $this->assertEquals('ES256', $client_secret->getHeader('alg'));
     }
 }

@@ -2,21 +2,15 @@
 
 require_once __DIR__ . '/config.php';
 
+use Apple\Apple;
+
 try {
     $_SESSION['state'] = bin2hex(random_bytes(5));
 } catch (\Exception $e) {
     $_SESSION['state'] = '123';
 }
 
-$authorize_url = 'https://appleid.apple.com/auth/authorize' . '?' .
-    http_build_query([
-        'response_type' => 'code',
-        'response_mode' => 'form_post',
-        'client_id'     => $static::$client_id,
-        'redirect_uri'  => $static::$redirect_uri,
-        'state'         => $_SESSION['state'],
-        'scope'         => 'name email',
-    ]);
+$authorize_url = Apple::build_authorize_url($_SESSION['state']);
 ?>
 <div id="appleid-signin" data-color="black" data-border="true" data-type="sign in" style="max-width:300px;margin:0 auto">
 

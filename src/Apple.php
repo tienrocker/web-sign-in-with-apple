@@ -10,7 +10,7 @@ use Lcobucci\JWT\Signer\Key;
 class Apple
 {
     /**
-     * Private key download from your apple developer account
+     * Path to private key download from your apple developer account
      *
      * @var string
      */
@@ -52,6 +52,24 @@ class Apple
      * @var string
      */
     public static $original_uri = '';
+
+    /**
+     * @param string $privateKey
+     * @param string $key_id
+     * @param string $team_id
+     * @param string $client_id
+     * @param string $redirect_uri
+     * @param string $original_uri
+     */
+    public static function setup($privateKey, $key_id, $team_id, $client_id, $redirect_uri = '', $original_uri = '')
+    {
+        static::$privateKey = $privateKey;
+        static::$key_id = $key_id;
+        static::$team_id = $team_id;
+        static::$client_id = $client_id;
+        static::$redirect_uri = $redirect_uri;
+        static::$original_uri = $original_uri;
+    }
 
     /**
      * Generating the JWT, The client secret is a ECDSA signed JWT using the key you get from the developer portal
@@ -143,6 +161,24 @@ class Apple
 
         $key = openssl_get_publickey($public_key['key']);
         return JWK::decode($jwt, $key, ['RS256']);
+    }
+
+    /**
+     * @param string $state
+     *
+     * @return string
+     */
+    public static function build_authorize_url($state = '')
+    {
+        return 'https://appleid.apple.com/auth/authorize' . '?' .
+            http_build_query([
+                'response_type' => 'code',
+                'response_mode' => 'form_post',
+                'client_id'     => static::$client_id,
+                'redirect_uri'  => static::$redirect_uri,
+                'state'         => $state,
+                'scope'         => 'name email',
+            ]);
     }
 
     /**

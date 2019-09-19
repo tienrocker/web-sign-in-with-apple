@@ -2,16 +2,18 @@
 
 require_once __DIR__ . '/config.php';
 
+use Apple\Apple;
+
 try {
     if (!isset($_POST['code'])) die('Authorization server returned an invalid code parameter');
     if (!isset($_POST['state']) || !isset($_SESSION['state']) || $_SESSION['state'] != $_POST['state']) die('Authorization server returned an invalid state parameter');
     if (isset($_REQUEST['error'])) die('Authorization server returned an error: ' . htmlspecialchars($_REQUEST['error']));
 
-    $response = $static::get_web_sign_in_callback($_POST['code']);
+    $response = Apple::get_web_sign_in_callback($_POST['code']);
 
 } catch (\Exception $e) {
     $_SESSION['error'] = $e->getMessage();
-    header('Location: ' . $static::$original_uri);
+    header('Location: ' . Apple::$original_uri);
 }
 
 if ($response) {
